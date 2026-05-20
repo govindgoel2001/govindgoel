@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/cta/(.*)", "dest": "/cta/$1.html" }
+  ]
+}

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stop Paying. Start Building.</title>
+  <meta name="description" content="Every expensive tool you are paying for has a free, open-source alternative that does the same job.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --border: #1e1e1e;
+      --text: #e4e4e4;
+      --muted: #666666;
+      --paid: #ef4444;
+      --free: #22c55e;
+      --accent: #f5f5f5;
+      --tag-paid-bg: rgba(239,68,68,0.08);
+      --tag-free-bg: rgba(34,197,94,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .nav-brand {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-cta {
+      font-size: 13px;
+      color: var(--free);
+      text-decoration: none;
+      border: 1px solid rgba(34,197,94,0.3);
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: rgba(34,197,94,0.08); }
+
+    /* HERO */
+    .hero {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 64px;
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* COMPARISONS */
+    .comparisons {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .comparison-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .comparison-block:hover {
+      border-color: #2a2a2a;
+    }
+
+    .block-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .block-num {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      min-width: 20px;
+    }
+
+    .block-category {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .row:last-child { border-bottom: none; }
+
+    .cell {
+      padding: 24px;
+    }
+
+    .cell:first-child {
+      border-right: 1px solid var(--border);
+    }
+
+    .cell-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .tag-paid {
+      color: var(--paid);
+      background: var(--tag-paid-bg);
+    }
+
+    .tag-free {
+      color: var(--free);
+      background: var(--tag-free-bg);
+    }
+
+    .cell-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .cell-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .cell-price {
+      font-size: 13px;
+      color: var(--paid);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    .cell-price.free-price {
+      color: var(--free);
+    }
+
+    .cell-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .cell-link:hover {
+      color: var(--text);
+      border-color: #333;
+    }
+
+    .cell-link.primary {
+      color: var(--free);
+      border-color: rgba(34,197,94,0.3);
+    }
+
+    .cell-link.primary:hover {
+      background: rgba(34,197,94,0.08);
+    }
+
+    .cell-link svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* CONCLUSION */
+    .conclusion {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+      text-align: center;
+    }
+
+    .conclusion-inner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+    }
+
+    .conclusion h2 {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .conclusion p {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 420px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+
+    .conclusion-links {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--free);
+      color: #000;
+    }
+
+    .btn-primary:hover { opacity: 0.9; }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover { border-color: #333; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .cell:first-child {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .hero { padding: 48px 20px 40px; }
+      .comparisons { padding: 0 20px 60px; }
+      .conclusion { padding: 0 20px 60px; }
+      .conclusion-inner { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-brand">Govind Goel</span>
+    <a href="https://www.myhermes.cloud" target="_blank" class="nav-cta">Start for free</a>
+  </nav>
+
+  <section class="hero">
+    <span class="hero-label">Paid vs Free</span>
+    <h1>Stop paying.<br>Start building.</h1>
+    <p>Every expensive tool you are using has a free, open-source alternative. Here are four.</p>
+  </section>
+
+  <section class="comparisons">
+
+    <!-- 1: Claude Code vs Hermes -->
+    <div class="comparison-block">
+      <div class="block-header">
+        <span class="block-num">01</span>
+        <span class="block-category">AI Coding Agent</span>
+      </div>
+      <div class="row">
+        <div class="cell">
+          <span class="cell-tag tag-paid">Paid</span>
+          <div class="cell-name">Claude Code</div>
+          <div class="cell-desc">Anthropic's coding agent. Session ends when you close the terminal. No persistent memory. Caps every 5 hours.</div>
+          <div class="cell-price">$20 – $100 / month</div>
+          <a href="https://claude.ai/code" target="_blank" class="cell-link">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 7.5h-3v-3a.5.5 0 00-1 0v3h-3a.5.5 0 000 1h3v3a.5.5 0 001 0v-3h3a.5.5 0 000-1z"/></svg>
+            claude.ai/code
+          </a>
+        </div>
+        <div class="cell">
+          <span class="cell-tag tag-free">Free</span>
+          <div class="cell-name">Hermes Agent</div>
+          <div class="cell-desc">Runs 24/7. Builds memory across sessions. Learns your workflow. Telegram access. No usage caps. Your model, your cost.</div>
+          <div class="cell-price free-price">$6 / month hosted — or free locally</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="https://www.myhermes.cloud" target="_blank" class="cell-link primary">myhermes.cloud</a>
+            <a href="https://github.com/NousResearch/hermes-agent" target="_blank" class="cell-link">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2: Claude Design vs Open Design -->
+    <div class="comparison-block">
+      <div class="block-header">
+        <span class="block-num">02</span>
+        <span class="block-category">AI Design Workspace</span>
+      </div>
+      <div class="row">
+        <div class="cell">
+          <span class="cell-tag tag-paid">Paid</span>
+          <div class="cell-name">Claude Design</div>
+          <div class="cell-desc">Anthropic's AI design tool. Cloud-only, locked to Opus, tied to a paid subscription. Your data stays on their servers.</div>
+          <div class="cell-price">Included in Claude Pro/Max</div>
+          <a href="https://claude.ai/design" target="_blank" class="cell-link">claude.ai/design</a>
+        </div>
+        <div class="cell">
+          <span class="cell-tag tag-free">Free</span>
+          <div class="cell-name">Open Design</div>
+          <div class="cell-desc">Runs locally. Uses any CLI agent you already have. 72 design systems, 31 skills, exports to HTML, PDF, PPTX. Apache 2.0.</div>
+          <div class="cell-price free-price">Free — bring your own model</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="https://open-design.ai" target="_blank" class="cell-link primary">open-design.ai</a>
+            <a href="https://github.com/nexu-io/open-design" target="_blank" class="cell-link">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3: Bloomberg vs OpenBB -->
+    <div class="comparison-block">
+      <div class="block-header">
+        <span class="block-num">03</span>
+        <span class="block-category">Financial Data Terminal</span>
+      </div>
+      <div class="row">
+        <div class="cell">
+          <span class="cell-tag tag-paid">Paid</span>
+          <div class="cell-name">Bloomberg Terminal</div>
+          <div class="cell-desc">Industry-standard financial data platform. Stocks, derivatives, economics, fixed income. Used by banks and funds globally.</div>
+          <div class="cell-price">$24,000 / year per seat</div>
+          <a href="https://www.bloomberg.com/professional/products/bloomberg-terminal/" target="_blank" class="cell-link">bloomberg.com</a>
+        </div>
+        <div class="cell">
+          <span class="cell-tag tag-free">Free</span>
+          <div class="cell-name">OpenBB</div>
+          <div class="cell-desc">Open-source financial data platform. Same data categories: stocks, crypto, options, economics, derivatives. Python, CLI, REST API, MCP.</div>
+          <div class="cell-price free-price">Free — AGPLv3 open source</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="https://openbb.co" target="_blank" class="cell-link primary">openbb.co</a>
+            <a href="https://github.com/OpenBB-finance/OpenBB" target="_blank" class="cell-link">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4: Whoop vs Custom Health Coach -->
+    <div class="comparison-block">
+      <div class="block-header">
+        <span class="block-num">04</span>
+        <span class="block-category">AI Health Coach</span>
+      </div>
+      <div class="row">
+        <div class="cell">
+          <span class="cell-tag tag-paid">Paid</span>
+          <div class="cell-name">Whoop AI Coach</div>
+          <div class="cell-desc">Wearable + AI coach that reads your recovery, strain, and sleep. Gives generic recommendations based on your biometric data.</div>
+          <div class="cell-price">$239 / year + hardware</div>
+          <a href="https://www.whoop.com" target="_blank" class="cell-link">whoop.com</a>
+        </div>
+        <div class="cell">
+          <span class="cell-tag tag-free">Free</span>
+          <div class="cell-name">Custom AI Health Coach</div>
+          <div class="cell-desc">Hermes Agent with health skills. Reads your own data, learns your patterns over time, gives advice based on your actual history. Private.</div>
+          <div class="cell-price free-price">Free — runs on your own setup</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="https://www.myhermes.cloud" target="_blank" class="cell-link primary">Get started</a>
+            <a href="https://github.com/NousResearch/hermes-agent" target="_blank" class="cell-link">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="conclusion">
+    <div class="conclusion-inner">
+      <h2>Anything can be built now.<br>So start building.</h2>
+      <p>The tools exist. They are free, open source, and better in most of the ways that matter. The only thing left is starting.</p>
+      <div class="conclusion-links">
+        <a href="https://www.myhermes.cloud" target="_blank" class="btn btn-primary">Deploy your agent free</a>
+        <a href="https://github.com/NousResearch/hermes-agent" target="_blank" class="btn btn-secondary">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built by Govind Goel &mdash; <a href="https://github.com/govindgoel2001" style="color:inherit">GitHub</a></p>
+  </footer>
+
+</body>
+</html>
