@@ -4,7 +4,7 @@
 
   /* ---- Reveal on scroll (progressive enhancement) ---- */
   var revealEls = document.querySelectorAll(
-    ".hero, .tile, .panel, .editorial, .contact"
+    ".hero, .tile, .guides__head, .guide, .callout, .contact"
   );
   revealEls.forEach(function (el) {
     el.classList.add("reveal");
