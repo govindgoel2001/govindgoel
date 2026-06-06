@@ -1,59 +1,245 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <title>Govind Goel</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="favicon.lnk">
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@1&family=Montserrat:ital@1&family=Sacramento&display=swap" rel="stylesheet">
+    <script>
+      /* mark JS-enabled so scroll-reveal is a progressive enhancement */
+      document.documentElement.classList.add("js");
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Govind Goel — entrepreneur and BSc Mathematics (Hons) student at Delhi University. Web development, public relations, and a love for cooking." />
+    <meta name="author" content="Govind Goel" />
+
+    <!-- Open Graph / social preview -->
+    <meta property="og:title" content="Govind Goel — Entrepreneur" />
+    <meta property="og:description" content="Entrepreneur & BSc Mathematics (Hons) student at Delhi University." />
+    <meta property="og:type" content="website" />
+
+    <title>Govind Goel — Entrepreneur</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Sacramento&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/styles.css" />
   </head>
+
   <body>
-    <div class="top-container">
-      <img src="images/cloud.png" class="top-cloud" alt="cloud.png">
-<h1>I'm Govind</h1>
-<h2>an entrepreneur</h2>
-<img src="images/cloud.png" class="bottom-cloud" alt="cloud.png">
-<img src="images/mountain.png" alt="mountain.png">
-</div>
-<div class="middle-container">
-  <div class="profile">
-    <img src="images/Govind.png" alt="govinds pic">
-    <h2>Hey!</h2>
-    <p><em>I am a Bsc Math Hon student at Delhi University.</em></p>
-  </div>
-  <hr>
-  <div class="skills">
-    <h2>My Skills.</h2>
-    <div class="skill-row">
-      <img class="coding-img" src="images/commerce.png" alt="coding.png">
-      <h3>Web Development</h3>
-      <p>A successful business means a good website.</p>
-    </div>
-    <div class="skill-row">
-      <img class="pr-img" src="images/connection.png" alt="Public Relations">
-      <h3>Public Relations</h3>
-      <p>From handling sponsorships for college fests to succesfully collaborating with other big entreprises, communication is a necessity. </p>
-    </div>
-    <div class="skill-row">
-      <img class="cook-img" src="images/cook.png" alt="Cooking.png">
-      <h3>Cooking</h3>
-      <p>But my best and favorite skill is to cook. Not a foody, but a creative guy in the kitchen.</p>
-  </div>
-  <hr>
-  <div class="contact-me">
-    <h2>Get In Touch</h2>
-    <h3>If you want to talk about professional or casual stuff</h3>
-    <p>Love cooking as much as me? Let's make a dish together, or talk business!</p>
-    <a class="classname" href="mailto:govindnarayangoel395@gmail.com">CONTACT ME</a>
-  </div>
-</div>
+    <!-- Navigation -->
+    <header class="nav" id="top">
+      <div class="container nav__inner">
+        <a href="#top" class="nav__brand">Govind<span>.</span></a>
 
+        <button
+          class="nav__toggle"
+          id="navToggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
 
-<div class="bottom-container">
-  <a class="footer-link" href="https://www.linkedin.com/in/govind-goel-08886a194/">LinkedIn</a>
-  <a class="footer-link" href="https:www.instagram.com/govind_goel/?hl=en">Instagram</a>
-  <p class="copyright"> © 2020 Govind Goel.</p>
-</div>
+        <nav class="nav__links" id="navLinks">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#work">Work</a>
+          <a href="#contact" class="nav__cta">Contact</a>
+        </nav>
+      </div>
+    </header>
 
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <p class="hero__eyebrow">Hi there, I'm</p>
+        <h1 class="hero__name">Govind Goel</h1>
+        <h2 class="hero__role">
+          an <span class="rotator" id="rotator">entrepreneur</span>
+        </h2>
+        <p class="hero__lead">
+          BSc Mathematics (Hons) student at Delhi University, building things on
+          the web and bringing people together — one idea at a time.
+        </p>
+        <div class="hero__actions">
+          <a href="#work" class="btn btn--primary">View my work</a>
+          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+        </div>
+        <a href="#about" class="hero__scroll" aria-label="Scroll to about">
+          <span></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Impact band -->
+    <section class="stats" aria-label="At a glance">
+      <div class="container stats__grid">
+        <div class="stat">
+          <span class="stat__num" data-count="5">5+</span>
+          <span class="stat__label">Brand collaborations</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="10">10+</span>
+          <span class="stat__label">Events sponsored</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="100">100%</span>
+          <span class="stat__label">Hands-on, no fluff</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num">∞</span>
+          <span class="stat__label">Dishes cooked</span>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <!-- About -->
+      <section class="section" id="about">
+        <div class="container about">
+          <div class="about__photo">
+            <img src="images/Govind.png" alt="Portrait of Govind Goel" loading="lazy" />
+          </div>
+          <div class="about__body">
+            <p class="section__kicker">About me</p>
+            <h2 class="section__title">Hey! Nice to meet you.</h2>
+            <p>
+              I'm Govind — a BSc Mathematics (Hons) student at Delhi University
+              with an entrepreneurial streak. I love turning ideas into
+              real, working products, whether that's a website, a partnership,
+              or a dish in the kitchen.
+            </p>
+            <p>
+              I care about clean execution, good communication, and learning
+              fast. When I'm not studying or building, you'll probably find me
+              cooking up something new.
+            </p>
+            <ul class="about__facts">
+              <li><strong>📍</strong> Delhi, India</li>
+              <li><strong>🎓</strong> BSc Math (Hons), DU</li>
+              <li><strong>💼</strong> Open to collaborations</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section class="section section--alt" id="skills">
+        <div class="container">
+          <div class="section__head">
+            <p class="section__kicker">What I do</p>
+            <h2 class="section__title">My skills</h2>
+          </div>
+
+          <div class="cards">
+            <article class="card">
+              <img class="card__icon" src="images/commerce.png" alt="" loading="lazy" />
+              <h3>Web Development</h3>
+              <p>
+                A successful business means a great website. I build clean,
+                responsive sites that load fast and look good everywhere.
+              </p>
+            </article>
+
+            <article class="card">
+              <img class="card__icon" src="images/connection.png" alt="" loading="lazy" />
+              <h3>Public Relations</h3>
+              <p>
+                From handling sponsorships for college fests to collaborating
+                with big enterprises — communication is everything, and I'm good
+                at it.
+              </p>
+            </article>
+
+            <article class="card">
+              <img class="card__icon" src="images/cook.png" alt="" loading="lazy" />
+              <h3>Cooking</h3>
+              <p>
+                My favourite skill. Not a foodie — a creative in the kitchen.
+                Give me ingredients and I'll give you something worth sharing.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Work / Highlights -->
+      <section class="section" id="work">
+        <div class="container">
+          <div class="section__head">
+            <p class="section__kicker">Selected work</p>
+            <h2 class="section__title">Things I've worked on</h2>
+          </div>
+
+          <div class="work">
+            <article class="work__item">
+              <span class="work__num">01</span>
+              <div>
+                <h3>College fest sponsorships</h3>
+                <p>
+                  Led outreach and closed sponsorship deals for college events,
+                  coordinating between organisers and brand partners.
+                </p>
+              </div>
+            </article>
+
+            <article class="work__item">
+              <span class="work__num">02</span>
+              <div>
+                <h3>Personal website</h3>
+                <p>
+                  Designed and shipped this very site — a fast, responsive,
+                  hand-built portfolio deployed on Vercel.
+                </p>
+              </div>
+            </article>
+
+            <article class="work__item">
+              <span class="work__num">03</span>
+              <div>
+                <h3>Brand collaborations</h3>
+                <p>
+                  Partnered with enterprises on joint initiatives, handling
+                  communication, expectations, and delivery end-to-end.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="section section--alt" id="contact">
+        <div class="container contact">
+          <p class="section__kicker">Get in touch</p>
+          <h2 class="section__title">Let's make something together</h2>
+          <p class="contact__lead">
+            Love cooking as much as me? Let's make a dish together — or talk
+            business. Either way, my inbox is open.
+          </p>
+          <a class="btn btn--primary btn--lg" href="mailto:govindnarayangoel395@gmail.com">
+            Say hello →
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer__inner">
+        <a href="#top" class="nav__brand">Govind<span>.</span></a>
+        <nav class="footer__links">
+          <a href="https://www.linkedin.com/in/govind-goel-08886a194/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.instagram.com/govind_goel/?hl=en" target="_blank" rel="noopener">Instagram</a>
+          <a href="mailto:govindnarayangoel395@gmail.com">Email</a>
+        </nav>
+        <p class="footer__copy">© <span id="year">2026</span> Govind Goel. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
   </body>
 </html>
