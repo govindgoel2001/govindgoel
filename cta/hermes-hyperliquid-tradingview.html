@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hermes + Hyperliquid + TradingView — Full Automated Trader</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --border: #1e1e1e;
+      --text: #e4e4e4;
+      --muted: #666666;
+      --green: #22c55e;
+      --accent: #f5f5f5;
+      --code-bg: #0d0d0d;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .nav-brand { font-size: 13px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+
+    .nav-cta {
+      font-size: 13px;
+      color: var(--green);
+      text-decoration: none;
+      border: 1px solid rgba(34,197,94,0.3);
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: rgba(34,197,94,0.08); }
+
+    .hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 48px;
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span { color: var(--green); }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .prereqs {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+    }
+
+    .prereq-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+
+    .prereq-box p { font-size: 13px; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .prereq-box ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .prereq-box li { font-size: 14px; color: var(--text); }
+    .prereq-box li::before { content: '\2192 '; color: var(--green); }
+
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .step-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .step-num { font-size: 11px; color: var(--muted); font-weight: 500; letter-spacing: 0.08em; }
+    .step-title { font-size: 14px; font-weight: 600; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .step-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .step-body p { font-size: 14px; color: var(--text); line-height: 1.7; }
+
+    .step-list { list-style: none; display: flex; flex-direction: column; gap: 8px; padding-left: 4px; }
+    .step-list li { font-size: 14px; color: var(--text); line-height: 1.6; }
+    .num { color: var(--green); font-weight: 600; margin-right: 8px; font-size: 12px; }
+
+    code, pre { font-family: 'SF Mono', 'Fira Code', monospace; }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--green);
+    }
+
+    .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: -8px; }
+
+    .note {
+      background: rgba(34,197,94,0.05);
+      border: 1px solid rgba(34,197,94,0.15);
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .note strong { color: var(--green); }
+
+    .strategies { display: flex; flex-direction: column; gap: 20px; }
+    .strategy-name { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+
+    .conclusion { max-width: 720px; margin: 0 auto; padding: 0 24px 100px; }
+
+    .conclusion-inner {
+      background: var(--surface);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .conclusion-inner h2 { font-size: clamp(22px, 4vw, 32px); font-weight: 700; color: var(--accent); margin-bottom: 12px; letter-spacing: -0.02em; }
+    .conclusion-inner p { font-size: 15px; color: var(--muted); max-width: 420px; margin: 0 auto 28px; line-height: 1.7; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      background: var(--green);
+      color: #000;
+    }
+    .btn:hover { opacity: 0.9; }
+
+    footer { border-top: 1px solid var(--border); padding: 24px; text-align: center; }
+    footer p { font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 600px) {
+      .hero { padding: 48px 20px 32px; }
+      .content { padding: 0 16px 60px; }
+      .prereqs { padding: 0 16px 32px; }
+      .conclusion { padding: 0 16px 60px; }
+      .conclusion-inner { padding: 28px 20px; }
+      .step-body { padding: 20px; }
+      pre { font-size: 11px; padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Govind Goel</span>
+  <a href="https://www.myhermes.cloud" target="_blank" class="nav-cta">Deploy Hermes free</a>
+</nav>
+
+<section class="hero">
+  <span class="hero-label">Automated Trading</span>
+  <h1>Hermes + Hyperliquid<br>+ <span>TradingView</span></h1>
+  <p>Three tools. One chain. Trades execute 24/7 without you touching anything.</p>
+</section>
+
+<div class="prereqs">
+  <div class="prereq-box">
+    <p>Before you start</p>
+    <ul>
+      <li>TradingView Pro+ or higher (webhooks require paid plan)</li>
+      <li>Hyperliquid account with funds deposited</li>
+      <li>Hermes Agent running on myhermes.cloud</li>
+    </ul>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">01</span>
+      <span class="step-title">Deploy Hermes on myhermes.cloud</span>
+    </div>
+    <div class="step-body">
+      <p>myhermes.cloud is the one-click host for Hermes Agent. No terminal, no Docker, no VPS. Your agent runs 24/7 on a managed server and stays alive even when your phone is off. This is what makes the whole system possible — Hermes is the brain that never sleeps.</p>
+      <ol class="step-list">
+        <li><span class="num">1.</span>Go to myhermes.cloud and click Deploy Agent</li>
+        <li><span class="num">2.</span>Choose your model — Kimi K2.6 via OpenRouter recommended ($0.95/M tokens)</li>
+        <li><span class="num">3.</span>Your agent gets a URL: <code>https://your-agent.myhermes.cloud</code></li>
+        <li><span class="num">4.</span>Save this URL — it becomes your TradingView webhook endpoint</li>
+      </ol>
+      <div class="note"><strong>Why myhermes.cloud?</strong> A local agent goes offline when your laptop does. myhermes.cloud keeps Hermes running continuously so it never misses an alert.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">02</span>
+      <span class="step-title">Get Your Hyperliquid API Key</span>
+    </div>
+    <div class="step-body">
+      <p>Hyperliquid uses wallet-based API keys. You generate a sub-wallet that can trade on behalf of your main account but cannot withdraw funds.</p>
+      <ol class="step-list">
+        <li><span class="num">1.</span>Go to <code>app.hyperliquid.xyz/API</code></li>
+        <li><span class="num">2.</span>Click Generate API Wallet — name it "hermes-trader"</li>
+        <li><span class="num">3.</span>Paste your main wallet address → click Generate</li>
+        <li><span class="num">4.</span>Click Authorize API Wallet</li>
+        <li><span class="num">5.</span>Copy the Private Key — you only see it once</li>
+      </ol>
+      <div class="note"><strong>Security:</strong> This sub-wallet can trade but cannot withdraw. Only fund it with what you are prepared to risk.</div>
+      <p class="label">Paste this into Hermes to store your keys:</p>
+      <pre>Store the following securely in my memory:
+- Hyperliquid API wallet address: [your API wallet address]
+- Hyperliquid private key: [your private key]
+- Main wallet address: [your main wallet]
+- Trading pair: ETH-PERP
+- Max position size per trade: $100
+
+Never expose these in logs or outputs.</pre>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">03</span>
+      <span class="step-title">Set Up TradingView Webhook Alert</span>
+    </div>
+    <div class="step-body">
+      <p>TradingView sends a JSON payload to your Hermes URL every time your alert condition triggers. This is how the signal travels from chart to trade.</p>
+      <ol class="step-list">
+        <li><span class="num">1.</span>Open TradingView and go to your chart</li>
+        <li><span class="num">2.</span>Set up your strategy or indicator</li>
+        <li><span class="num">3.</span>Click Alerts (bell icon) → Create Alert</li>
+        <li><span class="num">4.</span>Set your condition</li>
+        <li><span class="num">5.</span>Under Notifications → enable Webhook URL</li>
+        <li><span class="num">6.</span>Paste your Hermes URL: <code>https://your-agent.myhermes.cloud/webhook</code></li>
+        <li><span class="num">7.</span>In the Message box, paste this JSON:</li>
+      </ol>
+      <p class="label">Alert message payload:</p>
+      <pre>{
+  "action": "{{strategy.order.action}}",
+  "ticker": "{{ticker}}",
+  "price": "{{close}}",
+  "time": "{{time}}",
+  "interval": "{{interval}}",
+  "size": "0.01"
+}</pre>
+      <p>Replace <code>0.01</code> with your position size in ETH.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">04</span>
+      <span class="step-title">Tell Hermes What To Do With Signals</span>
+    </div>
+    <div class="step-body">
+      <p>Hermes needs a strategy prompt — the rules it follows every time a signal comes in. Paste this into your Hermes agent:</p>
+      <pre>You are my automated trading agent for Hyperliquid perpetuals.
+
+When you receive a webhook from TradingView:
+- action "buy" → open LONG on the ticker
+- action "sell" → open SHORT or close existing LONG
+- Use the size value from the payload
+- Use Hyperliquid credentials stored in memory
+- Log every trade: entry price, side, size, timestamp
+
+Risk rules:
+- Never exceed $500 total open exposure
+- If 3 consecutive trades are losses, pause and
+  notify me via Telegram
+- Do not trade on weekends (UTC)
+
+After each trade, send Telegram message:
+Trade: [LONG/SHORT] [ticker] @ $[price]
+Size: [size] | Time: [time]</pre>
+      <div class="note">The Telegram notification is built into Hermes — no extra config needed if you connected Telegram during setup on myhermes.cloud.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">05</span>
+      <span class="step-title">Test Before Going Live</span>
+    </div>
+    <div class="step-body">
+      <p>Do not skip this. Fire a test alert before trusting real money to the system.</p>
+      <ol class="step-list">
+        <li><span class="num">1.</span>TradingView → your alert → three dots → Test alert</li>
+        <li><span class="num">2.</span>Check Hermes dashboard — webhook should show as received</li>
+        <li><span class="num">3.</span>Check Telegram — Hermes should send a trade confirmation</li>
+        <li><span class="num">4.</span>Check Hyperliquid → Positions — test order should appear</li>
+        <li><span class="num">5.</span>Close the test position manually, then set the strategy live</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">&#9733;</span>
+      <span class="step-title">Strategy Prompts to Copy</span>
+    </div>
+    <div class="step-body">
+      <div class="strategies">
+        <div>
+          <p class="strategy-name">EMA Crossover — Trend Following</p>
+          <pre>EMA 9 crosses above EMA 21 → BUY signal
+EMA 9 crosses below EMA 21 → SELL signal
+Timeframe: 1H or 4H</pre>
+        </div>
+        <div>
+          <p class="strategy-name">RSI Reversal</p>
+          <pre>RSI(14) crosses below 30 → BUY (oversold)
+RSI(14) crosses above 70 → SELL (overbought)
+Timeframe: 15m scalping / 1H swing</pre>
+        </div>
+        <div>
+          <p class="strategy-name">SuperTrend</p>
+          <pre>SuperTrend flips UP → BUY
+SuperTrend flips DOWN → SELL
+Settings: ATR period 10, Factor 3.0</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<section class="conclusion">
+  <div class="conclusion-inner">
+    <h2>Want a custom strategy<br>built for your setup?</h2>
+    <p>The above works out of the box. A strategy tuned to your risk tolerance, your preferred assets, and your timeframe will outperform a generic one. DM me and I will build it with you.</p>
+    <a href="https://www.myhermes.cloud" target="_blank" class="btn">Start on myhermes.cloud</a>
+  </div>
+</section>
+
+<footer>
+  <p>Built by Govind Goel &mdash; <a href="https://github.com/govindgoel2001" style="color:inherit">GitHub</a></p>
+</footer>
+
+</body>
+</html>
